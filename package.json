@@ -1,5 +1,5 @@
 {
-  "name": "lumina-scale",
+  "name": "luminascale",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,16 +11,24 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-popper": "^2.3.0",
+    "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.13",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "postcss": "^8.4.38",
+    "react-perfect-scrollbar": "^1.5.8",
+    "tailwindcss": "^3.4.3",
     "vite": "^5.2.0"
   }
 }
