@@ -159,6 +159,7 @@ const Home = () => {
   };
 
   const setImportant = (task: Task) => {
+    console.log("task: ", task);
     let item = filteredTasks.find((taskItem: Task) => taskItem.id === task.id);
     if (item) {
       item.status = item.status === "important" ? "" : "important";
@@ -454,17 +455,19 @@ const Home = () => {
                                   <ul className="whitespace-nowrap">
                                     {selectedTab !== "trash" && (
                                       <>
-                                        <li>
-                                          <button
-                                            type="button"
-                                            onClick={() =>
-                                              console.log("edit: ", task)
-                                            }
-                                          >
-                                            <IconPencilPaper className="w-4.5 h-4.5 mr-2 shrink-0" />
-                                            Edit
-                                          </button>
-                                        </li>
+                                        {task.status !== "complete" && (
+                                          <li>
+                                            <button
+                                              type="button"
+                                              onClick={() =>
+                                                console.log("edit: ", task)
+                                              }
+                                            >
+                                              <IconPencilPaper className="w-4.5 h-4.5 mr-2 shrink-0" />
+                                              Edit
+                                            </button>
+                                          </li>
+                                        )}
                                         <li>
                                           <button
                                             type="button"
@@ -476,19 +479,21 @@ const Home = () => {
                                             Delete
                                           </button>
                                         </li>
-                                        <li>
-                                          <button
-                                            type="button"
-                                            onClick={() => setImportant(task)}
-                                          >
-                                            <IconStar className="w-4.5 h-4.5 mr-2 shrink-0" />
-                                            <span>
-                                              {task.status === "important"
-                                                ? "Not Important"
-                                                : "Important"}
-                                            </span>
-                                          </button>
-                                        </li>
+                                        {task.status !== "complete" && (
+                                          <li>
+                                            <button
+                                              type="button"
+                                              onClick={() => setImportant(task)}
+                                            >
+                                              <IconStar className="w-4.5 h-4.5 mr-2 shrink-0" />
+                                              <span>
+                                                {task.status === "important"
+                                                  ? "Not Important"
+                                                  : "Important"}
+                                              </span>
+                                            </button>
+                                          </li>
+                                        )}
                                       </>
                                     )}
                                     {selectedTab === "trash" && (
