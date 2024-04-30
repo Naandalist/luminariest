@@ -1,12 +1,11 @@
 import React from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import IconClipboardText from "../../assets/icons/IconClipboardText";
 import IconListCheck from "../../assets/icons/IconListCheck";
 import IconThumbUp from "../../assets/icons/IconThumbUp";
-import IconSquareRotated from "../../assets/icons/IconSquareRotated";
 import IconPlus from "../../assets/icons/IconPlus";
-import IconStar from "../../assets/icons/IconStar";
 import IconTrashLines from "../../assets/icons/IconTrashLines";
+import IconTag from "../../assets/icons/IconTag";
+import IconInfoTriangle from "../../assets/icons/IconInfoTriangle";
 import { Task } from "../../pages/Home";
 
 interface SidebarProps {
@@ -101,7 +100,7 @@ function Sidebar({
               }}
             >
               <div className="flex items-center">
-                <IconStar className="shrink-0" />
+                <IconInfoTriangle className="w-5 h-5 shrink-0" />
                 <div className="ml-3">Important</div>
               </div>
               <div className="bg-primary-light dark:bg-[#060818] rounded-md py-0.5 px-2 font-semibold whitespace-nowrap">
@@ -138,7 +137,7 @@ function Sidebar({
                 setSelectedTab("homework");
               }}
             >
-              <IconSquareRotated className="fill-success shrink-0" />
+              <IconTag className="shrink-0" />
               <div className="ml-3">Home Work</div>
             </button>
 
@@ -153,7 +152,7 @@ function Sidebar({
                 setSelectedTab("officework");
               }}
             >
-              <IconSquareRotated className="fill-info shrink-0" />
+              <IconTag className="shrink-0" />
               <div className="ml-3">Office Work</div>
             </button>
             <div className="h-px w-full border-b border-white-light dark:border-[#1b2e4b]"></div>
@@ -168,7 +167,7 @@ function Sidebar({
                 setSelectedTab("low");
               }}
             >
-              <IconSquareRotated className="fill-warning shrink-0" />
+              <IconTag className="shrink-0" />
               <div className="ml-3">Low</div>
             </button>
 
@@ -182,7 +181,7 @@ function Sidebar({
                 setSelectedTab("medium");
               }}
             >
-              <IconSquareRotated className="fill-primary shrink-0" />
+              <IconTag className="shrink-0" />
               <div className="ml-3">Medium</div>
             </button>
             <button
@@ -195,7 +194,7 @@ function Sidebar({
                 setSelectedTab("high");
               }}
             >
-              <IconSquareRotated className="fill-danger shrink-0" />
+              <IconTag className="shrink-0" />
               <div className="ml-3">High</div>
             </button>
           </div>
