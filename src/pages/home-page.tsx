@@ -39,6 +39,8 @@ const HomePage = () => {
     q: string;
   };
 
+  const navigate = useNavigate();
+
   const [isShowTaskMenu, setIsShowTaskMenu] = React.useState(false);
   const [allTasks, setAllTasks] = React.useState<Task[]>(tasks as Task[]);
   const [filteredTask, setFilteredTasks] = React.useState(allTasks);
@@ -51,15 +53,9 @@ const HomePage = () => {
     endIndex: 0,
   });
 
-  const navigate = useNavigate();
-
   React.useEffect(() => {
     setAllTasks(tasks);
   }, [tasks]);
-
-  console.log("alltask: ", allTasks);
-  console.log("filteredTask: ", filteredTask);
-  console.log("q: ", q);
 
   React.useEffect(() => {
     searchTasks();

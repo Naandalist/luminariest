@@ -10,7 +10,7 @@ export async function getTasks() {
     return tasks;
   }
 
-  return tasks;
+  return tasks.reverse();
 }
 export async function getTaskById(id: string) {
   if (!id) throw new Error(`Id is invalid`);

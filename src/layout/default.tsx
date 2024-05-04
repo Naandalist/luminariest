@@ -1,6 +1,7 @@
 import React from "react";
 import App from "../App";
 import { Header, Footer } from "../components";
+import { Outlet } from "react-router-dom";
 
 const DefaultLayout = ({ children }: React.PropsWithChildren) => {
   return (
@@ -14,7 +15,8 @@ const DefaultLayout = ({ children }: React.PropsWithChildren) => {
 
             <React.Suspense>
               <div className={`animate__fadeIn p-6 animate__animated`}>
-                {children}
+                {/* {children} */}
+                <Outlet />
               </div>
             </React.Suspense>
 

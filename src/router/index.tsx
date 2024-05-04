@@ -9,27 +9,30 @@ import AddEditForm, { loader as addEditLoader } from "../pages/add-edit-form";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <DefaultLayout children={<HomePage />} />,
+    element: <DefaultLayout />,
     errorElement: <ErrorPage />,
-    loader: homeLoader,
-  },
-  {
-    path: "/task/:taskId",
-    element: <DefaultLayout children={<DetailPage />} />,
-    loader: detailLoader,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/new-task",
-    element: <DefaultLayout children={<AddEditForm />} />,
-    errorElement: <ErrorPage />,
-    loader: addEditLoader,
-  },
-  {
-    path: "/task/:taskId/edit",
-    element: <DefaultLayout children={<AddEditForm />} />,
-    loader: addEditLoader,
-    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+        loader: homeLoader,
+      },
+      {
+        path: "/task/:taskId",
+        element: <DetailPage />,
+        loader: detailLoader,
+      },
+      {
+        path: "/new-task",
+        element: <AddEditForm />,
+        loader: addEditLoader,
+      },
+      {
+        path: "/task/:taskId/edit",
+        element: <AddEditForm />,
+        loader: addEditLoader,
+      },
+    ],
   },
 ]);
 
