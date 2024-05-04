@@ -247,8 +247,8 @@ const HomePage = () => {
                       name="q"
                       type="search"
                       placeholder="Search Task..."
-                      value={searchTask}
-                      onChange={(e) => setSearchTask(e.target.value)}
+                      // value={searchTask}
+                      // onChange={(e) => setSearchTask(e.target.value)}
                       onKeyUp={() => searchTasks()}
                     />
                     <div className="absolute right-[11px] top-1/2 -translate-y-1/2 peer-focus:text-primary">
