@@ -16,10 +16,10 @@ import { Task, Pagination } from "../interfaces";
 
 export async function loader({ request }) {
   const url = new URL(request.url);
-  const label: string | null = url.searchParams.get("label");
-  const tag: string | null = url.searchParams.get("tag");
-  const priority: string | null = url.searchParams.get("priority");
-  const q: string = url.searchParams.get("q") || "";
+  const label = url.searchParams.get("label");
+  const tag = url.searchParams.get("tag");
+  const priority = url.searchParams.get("priority");
+  const q = url.searchParams.get("q");
 
   let tasks: Task[] = [];
   let filterKey: string = "";
@@ -43,7 +43,6 @@ const HomePage = () => {
   const [allTasks, setAllTasks] = React.useState<Task[]>(tasks as Task[]);
   const [filteredTask, setFilteredTasks] = React.useState(allTasks);
   const [pagedTasks, setPagedTasks] = React.useState<Task[]>(filteredTask);
-  const [searchTask, setSearchTask] = React.useState<string>(q);
   const [pagination] = React.useState<Pagination>({
     currentPage: 1,
     totalPages: 0,
@@ -58,9 +57,13 @@ const HomePage = () => {
     setAllTasks(tasks);
   }, [tasks]);
 
+  console.log("alltask: ", allTasks);
+  console.log("filteredTask: ", filteredTask);
+  console.log("q: ", q);
+
   React.useEffect(() => {
     searchTasks();
-  }, [searchTask, allTasks]);
+  }, [filterKey, allTasks, q]);
 
   /**
    * Filters the tasks based on the provided filterKey and searchTask, and updates the pagination accordingly.
@@ -97,8 +100,9 @@ const HomePage = () => {
           return true;
         }
       })
-      .filter((task: Task) => task.title?.toLowerCase().includes(searchTask));
+      .filter((task: Task) => task.title?.toLowerCase().includes(q || ""));
 
+    console.log("filterKey: ", filterKey);
     setFilteredTasks(filteredRes);
     getPagination(filteredRes);
   };
@@ -247,8 +251,6 @@ const HomePage = () => {
                       name="q"
                       type="search"
                       placeholder="Search Task..."
-                      // value={searchTask}
-                      // onChange={(e) => setSearchTask(e.target.value)}
                       onKeyUp={() => searchTasks()}
                     />
                     <div className="absolute right-[11px] top-1/2 -translate-y-1/2 peer-focus:text-primary">
