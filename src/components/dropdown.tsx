@@ -1,18 +1,11 @@
 import React from "react";
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
 import { usePopper } from "react-popper";
 
 const Dropdown = (props: any, forwardedRef: any) => {
-  const [visibility, setVisibility] = useState<any>(false);
+  const [visibility, setVisibility] = React.useState<any>(false);
 
-  const referenceRef = useRef<any>();
-  const popperRef = useRef<any>();
+  const referenceRef = React.useRef<any>();
+  const popperRef = React.useRef<any>();
 
   const { styles, attributes } = usePopper(
     referenceRef.current,
@@ -41,14 +34,14 @@ const Dropdown = (props: any, forwardedRef: any) => {
     setVisibility(false);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.addEventListener("mousedown", handleDocumentClick);
     return () => {
       document.removeEventListener("mousedown", handleDocumentClick);
     };
   }, []);
 
-  useImperativeHandle(forwardedRef, () => ({
+  React.useImperativeHandle(forwardedRef, () => ({
     close() {
       setVisibility(false);
     },
@@ -78,4 +71,4 @@ const Dropdown = (props: any, forwardedRef: any) => {
   );
 };
 
-export default forwardRef(Dropdown);
+export default React.forwardRef(Dropdown);

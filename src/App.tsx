@@ -1,7 +1,6 @@
 import React from "react";
-import { PropsWithChildren, useEffect } from "react";
 
-function App({ children }: PropsWithChildren) {
+function App({ children }: React.PropsWithChildren) {
   return (
     <div
       className={`horizontal full ltr main-section antialiased relative font-nunito text-sm font-normal`}
