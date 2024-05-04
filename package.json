@@ -9,13 +9,18 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "author": "Naandalist",
   "dependencies": {
+    "dayjs": "^1.11.11",
+    "localforage": "^1.10.0",
+    "quill": "2.0.0-rc.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-popper": "^2.3.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.23.0",
-    "sweetalert2": "^11.10.8"
+    "sweetalert2": "^11.10.8",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@headlessui/react": "^1.7.19",

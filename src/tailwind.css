@@ -524,7 +524,7 @@
 }
 
 .swal2-container .swal2-popup.swal2-toast {
-  @apply bg-dark py-2.5 px-5;
+  @apply bg-secondary py-2.5 px-5;
 }
 
 .swal2-popup.swal2-toast .swal2-title,

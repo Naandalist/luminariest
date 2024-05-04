@@ -1,9 +1,8 @@
-import React, { PropsWithChildren, Suspense } from "react";
+import React from "react";
 import App from "../App";
-import Header from "../components/molecules/Header";
-import Footer from "../components/molecules/Footer";
+import { Header, Footer } from "../components";
 
-const Layout = ({ children }: PropsWithChildren) => {
+const DefaultLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <App>
       <div className="relative">
@@ -13,11 +12,11 @@ const Layout = ({ children }: PropsWithChildren) => {
           <div className="main-content flex flex-col min-h-screen">
             <Header />
 
-            <Suspense>
+            <React.Suspense>
               <div className={`animate__fadeIn p-6 animate__animated`}>
                 {children}
               </div>
-            </Suspense>
+            </React.Suspense>
 
             <Footer />
           </div>
@@ -27,4 +26,4 @@ const Layout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default Layout;
+export default DefaultLayout;
