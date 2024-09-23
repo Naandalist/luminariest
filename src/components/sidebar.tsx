@@ -16,6 +16,7 @@ function Sidebar({
   allTasks,
   tabChanged,
   filterKey,
+  totalAllTask,
 }: SidebarProps) {
   const groupButtonLabelComponent = () => {
     return (
@@ -34,15 +35,13 @@ function Sidebar({
           >
             <div className="flex items-center">
               <IconListCheck className="w-4.5 h-4.5 shrink-0" />
-              <div className="ml-3">All Tasks</div>
+              <div className="ml-3"> Tasks</div>
             </div>
-            {
+            {!filterKey && (
               <div className="bg-primary-light dark:bg-[#060818] rounded-md py-0.5 px-2 font-semibold whitespace-nowrap">
-                {allTasks
-                  ? allTasks.filter((d) => d.label !== "trash").length
-                  : null}
+                {totalAllTask}
               </div>
-            }
+            )}
           </button>
         </Link>
         <Link to="/?label=done">
@@ -60,13 +59,13 @@ function Sidebar({
               <IconThumbUp className="w-5 h-5 shrink-0" />
               <div className="ml-3">Done</div>
             </div>
-            {
+            {filterKey === "done" && (
               <div className="bg-primary-light dark:bg-[#060818] rounded-md py-0.5 px-2 font-semibold whitespace-nowrap">
                 {allTasks
                   ? allTasks.filter((d) => d.label === "done").length
                   : null}
               </div>
-            }
+            )}
           </button>
         </Link>
         <Link to="/?label=important">
@@ -84,13 +83,13 @@ function Sidebar({
               <IconInfoTriangle className="w-5 h-5 shrink-0" />
               <div className="ml-3">Important</div>
             </div>
-            {
+            {filterKey === "important" && (
               <div className="bg-primary-light dark:bg-[#060818] rounded-md py-0.5 px-2 font-semibold whitespace-nowrap">
                 {allTasks
                   ? allTasks.filter((d) => d.label === "important").length
                   : null}
               </div>
-            }
+            )}
           </button>
         </Link>
         <Link to="/?label=trash">
@@ -106,13 +105,13 @@ function Sidebar({
               <IconTrashLines className="shrink-0" />
               <div className="ml-3">Trash</div>
             </div>
-            {
+            {filterKey === "trash" && (
               <div className="bg-primary-light dark:bg-[#060818] rounded-md py-0.5 px-2 font-semibold whitespace-nowrap">
                 {allTasks
                   ? allTasks.filter((d) => d.label === "trash").length
                   : null}
               </div>
-            }
+            )}
           </button>
         </Link>
       </>

@@ -29,21 +29,51 @@ export async function loader({ request }) {
   if (priority) filterKey = priority;
 
   tasks = (await getTasks()) as Task[];
-  return { tasks, filterKey, q };
+
+  const totalAllTask = tasks.filter((item) => item.label !== "trash").length;
+
+  const filteredTasks = tasks
+    .filter((task: Task) => {
+      if (
+        filterKey === "done" ||
+        filterKey === "important" ||
+        filterKey === "trash"
+      ) {
+        return task.label === filterKey;
+      } else {
+        return task.label !== "trash";
+      }
+    })
+    .filter((task: Task) => {
+      if (filterKey === "homework" || filterKey === "officework") {
+        return task.tag === filterKey;
+      } else if (
+        filterKey === "high" ||
+        filterKey === "medium" ||
+        filterKey === "low"
+      ) {
+        return task.priority === filterKey;
+      } else {
+        return true;
+      }
+    })
+    .filter((task: Task) => task.title?.toLowerCase().includes(q || ""));
+
+  return { tasks: filteredTasks, filterKey, q, totalAllTask };
 }
 
 const HomePage = () => {
-  const { tasks, filterKey, q } = useLoaderData() as {
+  const { tasks, filterKey, q, totalAllTask } = useLoaderData() as {
     tasks: Task[];
     filterKey: string;
     q: string;
+    totalAllTask: string;
   };
 
   const navigate = useNavigate();
 
   const [isShowTaskMenu, setIsShowTaskMenu] = React.useState(false);
-  const [allTasks, setAllTasks] = React.useState<Task[]>(tasks as Task[]);
-  const [filteredTask, setFilteredTasks] = React.useState(allTasks);
+  const [filteredTask, setFilteredTasks] = React.useState(tasks);
   const [pagedTasks, setPagedTasks] = React.useState<Task[]>(filteredTask);
   const [pagination] = React.useState<Pagination>({
     currentPage: 1,
@@ -54,54 +84,9 @@ const HomePage = () => {
   });
 
   React.useEffect(() => {
-    setAllTasks(tasks);
+    setFilteredTasks(tasks);
+    getPagination(tasks);
   }, [tasks]);
-
-  React.useEffect(() => {
-    searchTasks();
-  }, [filterKey, allTasks, q]);
-
-  /**
-   * Filters the tasks based on the provided filterKey and searchTask, and updates the pagination accordingly.
-   *
-   * @param {boolean} isResetPage - If true, resets the current page of the pagination to 1.
-   */
-  const searchTasks = (isResetPage: boolean = true) => {
-    if (isResetPage) {
-      pagination.currentPage = 1;
-    }
-
-    const filteredRes = allTasks
-      .filter((task: Task) => {
-        if (
-          filterKey === "done" ||
-          filterKey === "important" ||
-          filterKey === "trash"
-        ) {
-          return task.label === filterKey;
-        } else {
-          return task.label !== "trash";
-        }
-      })
-      .filter((task: Task) => {
-        if (filterKey === "homework" || filterKey === "officework") {
-          return task.tag === filterKey;
-        } else if (
-          filterKey === "high" ||
-          filterKey === "medium" ||
-          filterKey === "low"
-        ) {
-          return task.priority === filterKey;
-        } else {
-          return true;
-        }
-      })
-      .filter((task: Task) => task.title?.toLowerCase().includes(q || ""));
-
-    console.log("filterKey: ", filterKey);
-    setFilteredTasks(filteredRes);
-    getPagination(filteredRes);
-  };
 
   /**
    * Calculates the pagination for a given array of tasks.
@@ -152,7 +137,7 @@ const HomePage = () => {
       item.label = item.label === "done" ? "" : "done";
 
       updateTask(task.id, { label: item.label });
-      searchTasks(false);
+      getPagination(filteredTask);
     }
   };
 
@@ -168,7 +153,7 @@ const HomePage = () => {
       item.label = item.label === "important" ? "" : "important";
 
       updateTask(task.id.toString(), { label: item.label });
-      searchTasks(false);
+      getPagination(filteredTask);
     }
     navigate(".", { replace: true });
   };
@@ -183,11 +168,13 @@ const HomePage = () => {
     }
 
     if (type === "deletePermanent") {
-      setAllTasks(allTasks.filter((taskItem: Task) => taskItem.id !== task.id));
+      setFilteredTasks(
+        filteredTask.filter((taskItem: Task) => taskItem.id !== task.id)
+      );
       removeTask(task.id);
     }
     updateTask(task.id.toString(), { label: task.label });
-    searchTasks(false);
+    getPagination(filteredTask);
     navigate(".", { replace: true });
   };
 
@@ -219,9 +206,10 @@ const HomePage = () => {
       <div className="flex gap-5 relative sm:h-[calc(100vh_-_150px)] h-full">
         <Sidebar
           isShowTaskMenu={isShowTaskMenu}
-          allTasks={allTasks}
+          allTasks={filteredTask}
           tabChanged={tabChanged}
           filterKey={filterKey}
+          totalAllTask={totalAllTask}
         />
         <div
           className={`overlay bg-black/60 z-[5] w-full h-full rounded-md absolute hidden ${
@@ -247,7 +235,7 @@ const HomePage = () => {
                       name="q"
                       type="search"
                       placeholder="Search Task..."
-                      onKeyUp={() => searchTasks()}
+                      onKeyUp={() => getPagination(filteredTask)}
                     />
                     <div className="absolute right-[11px] top-1/2 -translate-y-1/2 peer-focus:text-primary">
                       <IconSearch />
@@ -270,7 +258,7 @@ const HomePage = () => {
                   className="bg-[#f4f4f4] rounded-md p-1 enabled:hover:bg-primary-light dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 mr-3 disabled:opacity-60 disabled:cursor-not-allowed"
                   onClick={() => {
                     pagination.currentPage--;
-                    searchTasks(false);
+                    getPagination(filteredTask);
                   }}
                 >
                   <IconCaretDown className="w-5 h-5 rotate-90" />
@@ -281,7 +269,7 @@ const HomePage = () => {
                   className="bg-[#f4f4f4] rounded-md p-1 enabled:hover:bg-primary-light dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 disabled:opacity-60 disabled:cursor-not-allowed"
                   onClick={() => {
                     pagination.currentPage++;
-                    searchTasks(false);
+                    getPagination(filteredTask);
                   }}
                 >
                   <IconCaretDown className="w-5 h-5 -rotate-90" />
@@ -322,7 +310,7 @@ const HomePage = () => {
                                 props: {
                                   isShowTaskMenu,
                                   filterKey,
-                                  allTasks,
+                                  filteredTask,
                                 },
                               }}
                             >

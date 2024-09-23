@@ -21,4 +21,5 @@ export interface SidebarProps {
   allTasks: Task[];
   tabChanged: () => void;
   filterKey: string;
+  totalAllTask: string;
 }
